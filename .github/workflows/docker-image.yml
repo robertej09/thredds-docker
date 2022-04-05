@@ -50,8 +50,7 @@ jobs:
       run: echo ${{ github.event_name == 'workflow_dispatch' || github.event.pull_request_target.merged == true }}
 
     - name: Output vars
-      run: |
-        echo ${{ toJSON(github) }}
+      run: echo '${{ toJSON(github) }}'
 
     - name: Test true
       if: ${{ true }}

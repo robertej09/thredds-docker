@@ -36,14 +36,15 @@ jobs:
 
     - name: Run the container
       run: |
+        echo "\
         docker run \
         -v $(pwd)/.github/testScripts:/testScripts \
         -d \
         -p 8080:8080 \
-        ${{ secrets.imagename }}:${{ env.tag }}
+        ${{ secrets.imagename }}:${{ env.tag }}"
 
     - name: Run test script
-      run: ./.github/testScripts/test.sh
+      run: "echo \"./.github/testScripts/test.sh\""
 
     - name: Test Expression
       run: echo ${{ github.event_name == 'workflow_dispatch' || github.event.pull_request_target.merged == true }}

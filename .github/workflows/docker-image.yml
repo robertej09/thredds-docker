@@ -44,6 +44,20 @@ jobs:
     - name: Run test script
       run: ./.github/testScripts/test.sh
 
+    - name: Test Expression
+      run: echo ${{ github.event_name == 'workflow_dispatch' || github.event.pull_request_target.merged == true }}
+
+    - name: Output vars
+      run: echo ${{ toJSON(github) }}
+
+    - name: Test true
+      if: ${{ true }}
+      run: echo "True ran"
+
+    - name: Test false
+      if: ${{ false }}
+      run: echo "False ran for some reason"
+
     - name: Push to Dockerhub
       if: ${{ github.event_name == 'workflow_dispatch' || github.event.pull_request_target.merged == true}}
       run: |

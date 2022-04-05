@@ -30,7 +30,8 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Build the Docker image
-      run: echo "Skipping build: docker build --no-cache -t ${{ secrets.imagename }}:${{ env.tag }} ."
+      run: |
+        echo "Skipping build: docker build --no-cache -t ${{ secrets.imagename }}:${{ env.tag }} ."
 
 
     - name: Run the container

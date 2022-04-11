@@ -52,5 +52,5 @@ jobs:
         docker logout
         echo ${{ secrets.registrypwd }} | docker login -u ${{ secrets.registryuser }} --password-stdin
         docker push ${{ secrets.imagename }}:${{ env.tag }} &&
-        { docker logout && echo "Successfully pushed ${{ secrets.imagename }}:${{ env.tag }}; } ||
+        { docker logout && echo "Successfully pushed ${{ secrets.imagename }}:${{ env.tag }}"; } ||
         { docker logout && echo "Docker push failed" && exit 1; }

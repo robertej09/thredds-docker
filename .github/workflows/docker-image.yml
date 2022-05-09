@@ -28,16 +28,16 @@ jobs:
 
     steps:
     - name: Repository Dispatch Event
-      if: ${{ github.event_type == 'upstreamTDS' }}
+      if: ${{ github.event.action == 'upstreamTDS' }}
       run: |
-        echo ${{ github.event_type }} 
+        echo ${{ github.event.action }} 
         echo "tag=${{ github.event.client_payload.tag }}" >> $GITHUB_ENV
         echo "threddsWarURL=${{ github.event.client_payload.threddsWarURL }}" >> $GITHUB_ENV
 
     - name: Other Events
-      if: ${{ github.event_type != 'upstreamTDS' }}
+      if: ${{ github.event.action != 'upstreamTDS' }}
       run: |
-        echo ${{ github.event_type }} 
+        echo ${{ github.event.action }} 
         tag=${{ github.ref }} && tag=${tag##*/}
         echo "tag=${tag}" >> $GITHUB_ENV
         echo "threddsWarURL='n/a'" >> $GITHUB_ENV
@@ -64,7 +64,7 @@ jobs:
         fetch-depth: 0
 
     - name: Checkout branch on upstreamTDS
-      if: ${{ github.event_type == 'upstreamTDS' }}
+      if: ${{ github.event.action == 'upstreamTDS' }}
       run: |
         test $(git branch --list -r "origin/${{ env.tag }}" | head -c1 | wc -c) -ne 0 &&
         git checkout ${{ env.tag }} ||
@@ -72,7 +72,7 @@ jobs:
         git status
 
     - name: Modify Dockerfile on upstreamTDS
-      if: ${{ github.event_type == 'upstreamTDS' }}
+      if: ${{ github.event.action == 'upstreamTDS' }}
       run: |
         sed -e "s/ENV THREDDS_WAR_URL*/ENV THREDDS_WAR_URL ${{ env.threddsWarURL }}/g"
 
@@ -91,7 +91,7 @@ jobs:
       run: ./.github/testScripts/test.sh
 
     - name: Push to github on upstreamTDS
-      if: ${{ github.event_type == 'upstreamTDS' }}
+      if: ${{ github.event.action == 'upstreamTDS' }}
       run: |
         git config --global user.name 'Github Actions'
         git config --global user.email 'respinoza@ucar.edu'
@@ -99,7 +99,7 @@ jobs:
         git push origin ${{ env.tag }}
 
     - name: Push to Dockerhub
-      if: ${{ github.event_type == 'upstreamTDS' || github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == 'true'}}
+      if: ${{ github.event.action == 'upstreamTDS' || github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == 'true'}}
       run: |
         echo "Event that triggered workflow: ${{ github.event_name }}"
         docker logout

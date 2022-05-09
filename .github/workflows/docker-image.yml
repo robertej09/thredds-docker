@@ -14,7 +14,7 @@ on:
   push:
   workflow_dispatch:
   repository_dispatch:
-    types: [ "upstreamTDS" ]
+    types: [ upstreamTDS ]
   pull_request_target:
     types: [ opened, reopened, edited, synchronize, closed]
   

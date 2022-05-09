@@ -95,7 +95,7 @@ jobs:
       run: |
         git config --global user.name 'Github Actions'
         git config --global user.email 'respinoza@ucar.edu'
-        git commit -am "Update TDS"
+        git commit --all --allow-empty -m "Update TDS"
         git push origin ${{ env.tag }}
 
     - name: Push to Dockerhub

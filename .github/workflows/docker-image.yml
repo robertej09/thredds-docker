@@ -23,8 +23,8 @@ jobs:
   outputVars:
     runs-on: ubuntu-latest
     outputs: 
-      tag: ${{ steps.setOutputVars.outputs.tag }}
-      threddsWarURL: ${{ steps.setOutputVars.outputs.threddsWarURL }}
+      tag: ${{ steps.set-output-vars.outputs.tag }}
+      threddsWarURL: ${{ steps.set-output-vars.outputs.threddsWarURL }}
 
     steps:
     - name: Repository Dispatch Event
@@ -42,7 +42,8 @@ jobs:
         echo "tag=${tag}" >> $GITHUB_ENV
         echo "threddsWarURL='n/a'" >> $GITHUB_ENV
 
-    - name: setOutputVars
+    - name: Set output vars
+      id: set-output-vars
       run: |
         echo "::set-output name=tag::${{ env.tag }}"
         echo "::set-output name=threddsWarURL::${{ env.threddsWarURL }}"
